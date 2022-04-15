@@ -1,7 +1,7 @@
 import {Dispatch} from "redux";
 import {usersAPI} from "../../api/api";
 import {Post} from "./all-posts-reducer";
-import {AxiosResponse} from "axios";
+import {AxiosError, AxiosResponse} from "axios";
 import {call, put} from "redux-saga/effects";
 
 export type PostsType = Array<Post>
@@ -41,8 +41,8 @@ export function* getFilteredPostsSaga(action: ReturnType<typeof getFilteredPosts
         const res: AxiosResponse<PostsType> = yield call(usersAPI.getPostsByUser, action.userId)
         yield put(getFilteredPostsAC(res.data))
     }
-    catch(error: any){
-        console.log(error.message)
+    catch(error){
+        console.error(error)
     }
 }
 
