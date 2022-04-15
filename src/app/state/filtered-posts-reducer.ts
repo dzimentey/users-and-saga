@@ -1,7 +1,6 @@
-import {Dispatch} from "redux";
 import {usersAPI} from "../../api/api";
 import {Post} from "./all-posts-reducer";
-import {AxiosError, AxiosResponse} from "axios";
+import {AxiosResponse} from "axios";
 import {call, put} from "redux-saga/effects";
 
 export type PostsType = Array<Post>

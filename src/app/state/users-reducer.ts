@@ -42,11 +42,11 @@ export function* getUsersSaga() {
         yield put(getUsersAC(res.data))
     }
     catch(error){
-        console.log(error)
+        console.error(error)
     }
 }
 
-export const getUsers = () => ({type: 'GET-USERS'})
+export const getUsers = () => ({type: 'GET-USERS'}) as const
 
 
 
