@@ -22,16 +22,6 @@ export const filteredPostsReducer = (state: PostsType = [], action: ActionsType)
 export const getFilteredPostsAC = (posts: PostsType) => ({type: 'FILTERED-POSTS/GET-POSTS-BY-USER', posts}) as const
 export const removePostsAC = (userId: number) => ({type: 'FILTERED-POSTS/REMOVE-POSTS-BY-USER', userId}) as const
 
-//Thunk
-
-// export const getFilteredPostsTC = (userId: number) => async (dispatch: Dispatch) => {
-//     try {
-//         const res: AxiosResponse<PostsType> = await usersAPI.getPostsByUser(userId)
-//         dispatch(getFilteredPostsAC(res.data))
-//     } catch (error) {
-//         console.log(error)
-//     }
-// }
 
 //Saga
 
