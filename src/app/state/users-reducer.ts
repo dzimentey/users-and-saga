@@ -1,4 +1,3 @@
-import {Dispatch} from "redux";
 import {usersAPI} from "../../api/api";
 import {AxiosResponse} from "axios";
 import {call, put} from "redux-saga/effects";
@@ -48,16 +47,3 @@ export function* getUsersSaga() {
 
 export const getUsers = () => ({type: 'GET-USERS'}) as const
 
-
-
-//Thunk
-// export const getUsersTC = () => async (dispatch: Dispatch) => {
-//
-//         try {
-//             const res: AxiosResponse<UsersType> = await usersAPI.getUsersForFilter()
-//             dispatch(getUsersAC(res.data))
-//         }
-//         catch(error: any){
-//                 console.log(error.message)
-//             }
-// }
