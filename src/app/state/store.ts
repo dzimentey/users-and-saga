@@ -5,7 +5,7 @@ import {allPostsReducer} from "./all-posts-reducer";
 import {filteredPostsReducer, getFilteredPostsSaga} from "./filtered-posts-reducer";
 import {commentsReducer, getCommentsSaga} from "./coments-reducer";
 import createSagaMiddleware from 'redux-saga'
-import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
+import {takeEvery} from 'redux-saga/effects'
 
 export type AppRootStateType = ReturnType<typeof rootReducer>
 
