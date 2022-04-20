@@ -7,6 +7,7 @@ import {PostsType} from "./state/all-posts-reducer";
 import {getFilteredPosts, removePostsAC} from "./state/filtered-posts-reducer";
 import {CommentsType, getComments} from "./state/coments-reducer";
 import {debounce} from "@mui/material";
+import {Filters} from "./state/Filters";
 
 
 function App() {
@@ -78,24 +79,8 @@ function App() {
                     })}
                 </div>
 
-                <div className={'selectBlock'} >
-                    <div className={'selectTitle'} >Select users to view their posts</div>
-                    <div className={'selectBody'} >
-                        {users.map(u => {
-                            const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-                                let newIsChecked = e.currentTarget.checked
-                                getPostsByUser(u.id, newIsChecked)
-                            }
+                <Filters users={users} getPostsByUser={getPostsByUser}/>
 
-                            return (
-                                <div key={u.id}>
-                                    <input type="checkbox" onChange={onChangeHandler} checked={u.isChecked}/>
-                                    {u.name}
-                                </div>
-                            )
-                        })}
-                    </div>
-                </div>
             </div>
         </div>
     )
