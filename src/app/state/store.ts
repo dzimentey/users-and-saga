@@ -5,7 +5,8 @@ import {allPostsReducer} from "./all-posts-reducer";
 import {filteredPostsReducer, getFilteredPostsSaga} from "./filtered-posts-reducer";
 import {commentsReducer, getCommentsSaga} from "./coments-reducer";
 import createSagaMiddleware from 'redux-saga'
-import {takeEvery} from 'redux-saga/effects'
+import {takeEvery, debounce} from 'redux-saga/effects'
+
 
 export type AppRootStateType = ReturnType<typeof rootReducer>
 
@@ -25,6 +26,6 @@ sagaMiddleware.run(rootWatcher)
 function* rootWatcher() {
     yield takeEvery('GET-USERS', getUsersSaga)
     yield takeEvery('GET-FILTERED-POSTS', getFilteredPostsSaga)
-    yield takeEvery('GET-COMMENTS', getCommentsSaga)
+    yield debounce(500, 'GET-COMMENTS', getCommentsSaga)
 }
 
