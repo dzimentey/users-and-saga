@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useEffect} from 'react'
+import React, {useCallback, useEffect} from 'react'
 import './App.css'
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
@@ -8,9 +8,10 @@ import {getFilteredPosts, removePostsAC} from "./state/filtered-posts-reducer";
 import {CommentsType, getComments} from "./state/coments-reducer";
 import {debounce} from "@mui/material";
 import {Filters} from "./state/Filters";
+import {Posts} from "./Posts";
 
 
-function App() {
+const App = () => {
 
     const dispatch = useDispatch()
 
@@ -24,28 +25,30 @@ function App() {
     }, [])
 
     useEffect(() => {
-        localStorage.setItem('localUsers', JSON.stringify(users))
+        localStorage.setItem('localUsers', JSON.stringify(users)) // Set items to local storage during each rendering
     })
 
     const users = useSelector<AppRootStateType, UsersType>(state => state.users)
     //const allPosts = useSelector<AppRootStateType, PostsType>(state => state.allPosts)
     const filteredPosts = useSelector<AppRootStateType, PostsType>(state => state.filteredPosts)
     const comments = useSelector<AppRootStateType, CommentsType>(state => state.comments)
+    const getFilteredPostsHandler = debounce((userId: number) => {
+        dispatch(getFilteredPosts(userId))
+    }, 500)
 
-    const getPostsByUser = debounce((id: number, isChecked: boolean) => {
+    const getPostsByUser = useCallback((id: number, isChecked: boolean) => {
         if (!isChecked) {
             dispatch(removePostsAC(id))
             dispatch(changeUserStatusAC(id, isChecked))
         }
         else {
-            dispatch(getFilteredPosts(id))
+            //dispatch(getFilteredPosts(id))
+            getFilteredPostsHandler(id)
             dispatch(changeUserStatusAC(id, isChecked))
         }
-    }, 500)
+    },  [])
 
-    const showCommentsHandler = debounce((postId: number) => {
-             dispatch(getComments(postId))
-    }, 500)
+    const getCommentsHandler = useCallback((postId: number) => () => dispatch(getComments(postId)),[])
 
     const getFromLocal = () => {
         const localUsersJSON = localStorage.getItem('localUsers')
@@ -56,29 +59,12 @@ function App() {
         }
     }
 
+        console.log('App')
+
     return (
         <div className="App">
             <div className={'mainBlock'}>
-                <div className={'postsBlock'}>
-
-                    {filteredPosts.map(post => {
-                        const onClickHandler = () => showCommentsHandler(post.id)
-
-                        return(
-                            <div key={post.id}>
-                                <li>{post.title}</li>
-                                <div style={{background: 'lightblue'}}>
-                                    {post.body}
-                                </div>
-                                <button onClick={onClickHandler}>expand</button>
-                                    <div style={{background: 'lightgray'}}>
-                                    {comments.map(c => c.postId === post.id ? <p key={c.id}> {c.id} {c.body}</p> : '')}
-                                    </div>
-                            </div>
-                        )
-                    })}
-                </div>
-
+                <Posts filteredPosts={filteredPosts} getCommentsHandler={getCommentsHandler} comments={comments}/>
                 <Filters users={users} getPostsByUser={getPostsByUser}/>
 
             </div>
