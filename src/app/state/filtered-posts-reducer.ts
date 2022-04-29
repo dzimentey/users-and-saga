@@ -4,9 +4,9 @@ import {AxiosResponse} from "axios";
 import {call, put} from "redux-saga/effects";
 
 export type PostsType = Array<Post>
-type ActionsType = ReturnType<typeof getFilteredPostsAC> | ReturnType<typeof removePostsAC>
+type FilteredPostsActionTypes = ReturnType<typeof getFilteredPostsAC> | ReturnType<typeof removePostsAC>
 
-export const filteredPostsReducer = (state: PostsType = [], action: ActionsType): PostsType => {
+export const filteredPostsReducer = (state: PostsType = [], action: FilteredPostsActionTypes): PostsType => {
     switch (action.type) {
         case "FILTERED-POSTS/GET-POSTS-BY-USER":
             return [...state, ...action.posts]
