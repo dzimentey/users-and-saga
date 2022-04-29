@@ -11,10 +11,9 @@ type User = {
 }
 
 export type UsersType = Array<User>
-export type getUsersACType = ReturnType<typeof getUsersAC> | ReturnType<typeof changeUserStatusAC> | ReturnType<typeof getLocalUsersAC>
-type ActionsType = getUsersACType
+export type UsersActionTypes = ReturnType<typeof getUsersAC> | ReturnType<typeof changeUserStatusAC> | ReturnType<typeof getLocalUsersAC>
 
-export const usersReducer = (state: UsersType = [], action: ActionsType): UsersType => {
+export const usersReducer = (state: UsersType = [], action: UsersActionTypes): UsersType => {
     switch (action.type) {
         case "USERS/GET-USERS":
             return action.users.map(u => ({...u, isChecked: false}))
